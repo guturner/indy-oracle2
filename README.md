@@ -1,7 +1,7 @@
-#indy-oracle2
+# indy-oracle2
 Web application for organizing cosplay safety.
 
-#Intro
+# Intro
 Demonstrates knowledge of:
 - Java
 - JavaScript
@@ -11,7 +11,7 @@ Demonstrates knowledge of:
 - Docker
 - Google Cloud
 
-#Setup Guide
+# Setup Guide
 Note: I am using Google Cloud as my Kubernetes provider, so these instructions will focus on that.
 1. Create your [Google Cloud](https://cloud.google.com/) account.
 2. Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/quickstart-windows).
