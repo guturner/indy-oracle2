@@ -14,11 +14,8 @@ Demonstrates knowledge of:
 
 # Setup Guide
 Note: I am using Google Cloud as my Kubernetes provider, so these instructions will focus on that.
-1. Create your [Google Cloud](https://cloud.google.com/) account.
-2. Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/quickstart-windows).
-3. Install kubectl via the Google Cloud SDK:
-`gcloud components install kubectl`
-4. Create Kubernetes resources:
-`cd k8s/`
-  Create deployments first: `cd deployments/`
-  `kubectl apply -f .`
+
+ 1. Create your [Google Cloud](https://cloud.google.com/) account.
+ 2. Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/quickstart-windows).
+ 3. Install kubectl via the Google Cloud SDK: `gcloud components install kubectl`
+ 4. Create Kubernetes Deployments: `kubectl apply -f k8s/deployments/.`
