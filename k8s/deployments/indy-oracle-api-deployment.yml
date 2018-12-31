@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: indy-oracle-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: indy-oracle
+      tier: api
+  template:
+    metadata:
+      labels:
+        app: indy-oracle
+        tier: api
+    spec:
+      containers:
+      - name: indy-oracle-api
+        image: gcr.io/third-anvil-135423/indy-oracle-api:0.2.0
+        ports:
+        - containerPort: 8080
