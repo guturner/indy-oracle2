@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: indy-oracle-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: indy-oracle
+      tier: ui
+  template:
+    metadata:
+      labels:
+        app: indy-oracle
+        tier: ui
+    spec:
+      containers:
+      - name: indy-oracle-ui
+        image: gcr.io/third-anvil-135423/indy-oracle-ui:1.1.7
+        ports:
+        - containerPort: 3000
