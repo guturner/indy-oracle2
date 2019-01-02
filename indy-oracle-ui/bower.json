@@ -1,0 +1,24 @@
+{
+  "name": "indy-oracle-ui",
+  "homepage": "indy-oracle.com",
+  "authors": [
+    "third-anvil"
+  ],
+  "description": "Alerting for Cosplay Safety",
+  "main": "dist/index.js",
+  "keywords": [
+    "material",
+    "design",
+    "material-ui",
+    "google",
+    "twitter"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true
+}
