@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @GetMapping("/1.0/user")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "indy-oracle-api-svc:3000")
     public String sayHello() {
         return "Hello!";
     }
