@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: indy-oracle-api
-        image: gcr.io/third-anvil-135423/indy-oracle-api:0.2.0
+        image: gcr.io/third-anvil-135423/indy-oracle-api:0.9.0
         ports:
         - containerPort: 8080
