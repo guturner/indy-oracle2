@@ -4,6 +4,7 @@ metadata:
   name: indy-oracle-ui-ingress
   annotations:
     kubernetes.io/ingress.global-static-ip-name: indy-oracle-ip
+    ingress.kubernetes.io/enable-cors: "true"
 spec:
   tls:
   - hosts:
@@ -13,6 +14,10 @@ spec:
     - host: indy-oracle.com
       http:
         paths:
+        - path: /api
+          backend:
+            serviceName: indy-oracle-api-svc
+            servicePort: 8080
         - path: /
           backend:
             serviceName: indy-oracle-ui-svc

@@ -43,7 +43,7 @@ class InfoSection extends React.Component {
   }
 
   componentWillMount() {
-    axios.get('indy-oracle-api-svc:8080/api/1.0/user')
+    axios.get('https://indy-oracle.com/api/1.0/user')
         .then(response => this.setState({msg: response.data}));
   }
 }
