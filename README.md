@@ -8,6 +8,7 @@ Demonstrates knowledge of:
 - JavaScript
 - Spring Boot 2
 - React
+- Firebase
 - Kong
 - Kubernetes
 - Docker
@@ -21,6 +22,9 @@ Note: I am using Google Cloud as my Kubernetes provider, so these instructions w
 3. Install kubectl via the Google Cloud SDK: `gcloud components install kubectl`
 4. Create Kubernetes Deployments: `kubectl apply -f k8s/deployments/.`
 5. Create Kubernetes Services: `kubectl apply -f k8s/services/.`
+
+# Firebase
+At the root of indy-oracle-ui, provide a `.env` file to hold your Firebase config variables.
 
 # Expose Publicly
 1. Reserve a domain name (optional).
