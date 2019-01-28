@@ -8,6 +8,7 @@ Demonstrates knowledge of:
 - JavaScript
 - Spring Boot 2
 - React
+- Kong
 - Kubernetes
 - Docker
 - Google Cloud

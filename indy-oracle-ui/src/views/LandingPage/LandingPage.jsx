@@ -12,6 +12,9 @@ import Parallax from "components/Parallax/Parallax.jsx";
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 
 import InfoSection from "./Sections/InfoSection.jsx";
+import SignUpPage from "../SignUpPage/SignUpPage";
+
+import { FirebaseContext } from '../../firebase';
 
 const dashboardRoutes = [];
 
@@ -44,12 +47,15 @@ class LandingPage extends React.Component {
           <div className={classes.container}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={8}>
-                <h1 className={classes.title} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
+                {/* <h1 className={classes.title} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
                   317-584-{this.state.phoneNumber}
                 </h1>
                 <h4>
                   Coming soon.
-                </h4>
+                </h4> */}
+                <FirebaseContext.Consumer>
+                  {firebase => <SignUpPage firebase={firebase} />}
+                </FirebaseContext.Consumer>
               </GridItem>
             </GridContainer>
           </div>

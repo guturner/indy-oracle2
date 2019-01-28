@@ -5,3 +5,5 @@ node_modules/
 .idea/
 .gradle/
 .DS_Store
+
+indy-oracle-ui/.env
