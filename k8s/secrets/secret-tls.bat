@@ -1,0 +1,1 @@
+kubectl create secret tls secret-tls --key server.key --cert indy-oracle_com.crt
