@@ -25,6 +25,12 @@ const basicsStyle = {
     height: "17px",
     color: "#FFFFFF"
   },
+  textCenter: {
+    textAlign: "center"
+  },
+  textMuted: {
+    color: "#6c757d"
+  },
   ...customCheckboxRadioSwitch
 };
 

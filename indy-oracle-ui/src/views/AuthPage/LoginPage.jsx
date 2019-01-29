@@ -4,35 +4,34 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "components/CustomButtons/Button.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
+import CardHeader from "components/Card/CardHeader.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 
 import basicsStyle from "assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 
-class SignUpPage extends React.Component {
+class LoginPage extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      password: '',
-      confirmPassword: ''
+      password: ''
     };
   }
 
   onSubmit = event => {
-    console.log('got here');
     const { email, password } = this.state;
 
-    this.props.firebase
-      .doCreateUserWithEmailAndPassword(email, password)
-      .then(authUser => {
+    // this.props.firebase
+    //   .doCreateUserWithEmailAndPassword(email, password)
+    //   .then(authUser => {
 
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   };
 
   onChange = event => {
@@ -44,17 +43,18 @@ class SignUpPage extends React.Component {
 
     const isInvalid =
       this.state.email === '' ||
-      this.state.password !== this.state.confirmPassword ||
       this.state.password === '';
 
     return (
-      <Card>
-        <CardBody>
+      <Card className={classes.textCenter}>
+        <CardHeader color="danger">Login</CardHeader>
+
+        <CardBody xs={12} sm={12} md={12}>
           <form onSubmit={this.onSubmit}>
 
             <GridContainer>
 
-              <GridItem xs={8} sm={8} md={8}>
+              <GridItem xs={12} sm={12} md={12}>
                 <CustomInput
                   labelText="Email Address"
                   formControlProps={{
@@ -72,7 +72,7 @@ class SignUpPage extends React.Component {
 
             <GridContainer>
 
-              <GridItem xs={4} sm={4} md={4}>
+              <GridItem xs={12} sm={12} md={12}>
                 <CustomInput
                   labelText="Password"
                   formControlProps={{
@@ -87,29 +87,14 @@ class SignUpPage extends React.Component {
                 />
               </GridItem>
 
-              <GridItem xs={4} sm={4} md={4}>
-                <CustomInput
-                  labelText="Confirm Password"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    name: "confirmPassword",
-                    type: "password",
-                    value: this.state.confirmPassword,
-                    onChange: this.onChange
-                  }}
-                />
-              </GridItem>
-            
             </GridContainer>
 
             <GridContainer>
 
-              <GridItem xs={4} sm={4} md={4}>
-                <Button type="submit" disabled={isInvalid}>Sign Up</Button>
+              <GridItem xs={12} sm={12} md={12}>
+                <Button color="primary" type="submit" disabled={isInvalid}>Login</Button>
               </GridItem>
-            
+
             </GridContainer>
 
           </form>
@@ -119,4 +104,4 @@ class SignUpPage extends React.Component {
   }
 }
 
-export default withStyles(basicsStyle)(SignUpPage);
+export default withStyles(basicsStyle)(LoginPage);
