@@ -49,7 +49,6 @@ class LandingPage extends React.Component {
                 <h4>
                   Coming soon.
                 </h4> */}
-                
               </GridItem>
             </GridContainer>
           </div>

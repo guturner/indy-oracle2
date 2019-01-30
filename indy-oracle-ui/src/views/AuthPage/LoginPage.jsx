@@ -1,5 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
+
+import { signIn } from "../../actions";
 
 import Button from "components/CustomButtons/Button.jsx";
 import Card from "components/Card/Card.jsx";
@@ -10,6 +13,12 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 
 import basicsStyle from "assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
+
+function mapDispatchToProps(dispatch) {
+  return {
+    signIn: user => dispatch(signIn(user))
+  };
+};
 
 class LoginPage extends React.Component {
 
@@ -24,14 +33,14 @@ class LoginPage extends React.Component {
   onSubmit = event => {
     const { email, password } = this.state;
 
-    // this.props.firebase
-    //   .doCreateUserWithEmailAndPassword(email, password)
-    //   .then(authUser => {
-
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    this.props.firebase
+      .doSignInWithEmailAndPassword(email, password)
+      .then(authUser => {
+        this.props.signIn(authUser);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   onChange = event => {
@@ -104,4 +113,5 @@ class LoginPage extends React.Component {
   }
 }
 
-export default withStyles(basicsStyle)(LoginPage);
+const StatefulLoginPage = connect(null, mapDispatchToProps)(LoginPage);
+export default withStyles(basicsStyle)(StatefulLoginPage);
