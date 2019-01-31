@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -20,14 +21,23 @@ function mapDispatchToProps(dispatch) {
   };
 };
 
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+};
+
 class LoginPage extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      redirect: false
     };
+
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit = event => {
@@ -35,12 +45,15 @@ class LoginPage extends React.Component {
 
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
-      .then(authUser => {
-        this.props.signIn(authUser);
+      .then(response => {
+        this.props.signIn(response.user.email);
+        this.setState({ ...this.state, redirect: true });
       })
       .catch(error => {
         console.log(error);
       });
+
+    event.preventDefault();
   };
 
   onChange = event => {
@@ -49,6 +62,10 @@ class LoginPage extends React.Component {
   
   render() {
     const { classes, ...rest } = this.props;
+
+    if (this.state.redirect) {
+      return <Redirect push to="/" />;
+    }
 
     const isInvalid =
       this.state.email === '' ||
@@ -113,5 +130,5 @@ class LoginPage extends React.Component {
   }
 }
 
-const StatefulLoginPage = connect(null, mapDispatchToProps)(LoginPage);
+const StatefulLoginPage = connect(mapStateToProps, mapDispatchToProps)(LoginPage);
 export default withStyles(basicsStyle)(StatefulLoginPage);
