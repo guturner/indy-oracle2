@@ -10,6 +10,7 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
+import Danger from "components/Typography/Danger.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 
@@ -35,7 +36,11 @@ class SignUpPage extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
-      redirect: false
+      redirect: false,
+      badEmail: false,
+      badEmailMsg: '',
+      badPassword: false,
+      badPasswordMsg: ''
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -44,6 +49,8 @@ class SignUpPage extends React.Component {
   onSubmit = event => {
     const { email, password } = this.state;
 
+    this.setState({ ...this.state, badEmail: false, badEmailMsg: '', badPassword: false, badPasswordMsg: '' });
+
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, password)
       .then(response => {
@@ -51,7 +58,15 @@ class SignUpPage extends React.Component {
         this.setState({ ...this.state, redirect: true });
       })
       .catch(error => {
-        console.log(error);
+        switch(error.code) {
+          case 'auth/invalid-email':
+            this.setState({ ...this.state, badEmail: true });
+            this.setState({ ...this.state, badEmailMsg: 'Invalid email format.' });
+            break;
+          case 'auth/weak-password':
+            this.setState({ ...this.state, badPassword: true });
+            this.setState({ ...this.state, badPasswordMsg: 'Weak password! Must be at least 6 characters.' });
+        }
       });
     
       event.preventDefault();
@@ -91,9 +106,19 @@ class SignUpPage extends React.Component {
                   inputProps={{
                     name: "email",
                     value: this.state.email,
+                    error: this.state.badEmail,
                     onChange: this.onChange
                   }}
                 />
+              </GridItem>
+              <GridItem>
+                {
+                  this.state.badEmail ?
+                  <Danger>
+                    { this.state.badEmailMsg }
+                  </Danger> :
+                  null
+                }
               </GridItem>
 
             </GridContainer>
@@ -110,9 +135,19 @@ class SignUpPage extends React.Component {
                     name: "password",
                     type: "password",
                     value: this.state.password,
+                    error: this.state.badPassword,
                     onChange: this.onChange
                   }}
                 />
+              </GridItem>
+              <GridItem>
+                {
+                  this.state.badPassword ?
+                  <Danger>
+                    { this.state.badPasswordMsg }
+                  </Danger> :
+                  null
+                }
               </GridItem>
 
             </GridContainer>
