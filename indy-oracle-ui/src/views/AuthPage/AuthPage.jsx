@@ -45,13 +45,13 @@ class AuthPage extends React.Component {
 
                 <GridContainer spacing={40}>
                     
-                    <GridItem xs={6} sm={6} md={6}>
+                    <GridItem xs={12} sm={12} md={6}>
                         <FirebaseContext.Consumer>
                             {firebase => <LoginPage firebase={firebase} />}
                         </FirebaseContext.Consumer>
                     </GridItem>
 
-                    <GridItem xs={6} sm={6} md={6}>
+                    <GridItem xs={12} sm={12} md={6}>
                         <FirebaseContext.Consumer>
                             {firebase => <SignUpPage firebase={firebase} />}
                         </FirebaseContext.Consumer>
