@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import Header from "components/Header/Header.jsx";
@@ -14,6 +15,12 @@ import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.js
 import InfoSection from "./Sections/InfoSection.jsx";
 
 import { FirebaseContext } from '../../firebase';
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+};
 
 class LandingPage extends React.Component {
 
@@ -43,12 +50,18 @@ class LandingPage extends React.Component {
           <div className={classes.container}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={8}>
-                {/* <h1 className={classes.title} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
-                  317-584-{this.state.phoneNumber}
-                </h1>
-                <h4>
-                  Coming soon.
-                </h4> */}
+                { 
+                  this.props.user !== '' ?
+                  <div>
+                    <h1 className={classes.title} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
+                      317-584-{this.state.phoneNumber}
+                    </h1>
+                    <h4>
+                      Coming soon.
+                    </h4>
+                  </div> :
+                  null
+                }
               </GridItem>
             </GridContainer>
           </div>
@@ -72,4 +85,5 @@ class LandingPage extends React.Component {
   }
 }
 
-export default withStyles(landingPageStyle)(LandingPage);
+const StatefulLandingPage = connect(mapStateToProps, null)(LandingPage);
+export default withStyles(landingPageStyle)(StatefulLandingPage);
