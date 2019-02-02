@@ -6,7 +6,6 @@ security:
     role: SERVICE
   jwt:
     url: /auth/
-    header: Authorization
     prefix: 'Bearer '
     expiration: 3600
     secret: <my-secret>

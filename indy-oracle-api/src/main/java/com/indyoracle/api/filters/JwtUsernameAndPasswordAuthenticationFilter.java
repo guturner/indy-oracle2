@@ -1,10 +1,12 @@
 package com.indyoracle.api.filters;
 
 import com.indyoracle.api.config.JwtConfigProperties;
+import com.indyoracle.api.dtos.AuthResponse;
 import com.indyoracle.api.dtos.UserCredentials;
 import com.indyoracle.api.exceptions.BasicAuthException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -84,6 +86,16 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .signWith(SignatureAlgorithm.HS512, jwtConfigProperties.getSecret().getBytes())
                 .compact();
 
-        response.addHeader(jwtConfigProperties.getHeader(), jwtConfigProperties.getPrefix() + token);
+
+        AuthResponse authResponse = AuthResponse.create()
+                .setPrefix(jwtConfigProperties.getPrefix())
+                .setToken(token)
+                .setExpiresIn(jwtConfigProperties.getExpiration());
+
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setContentLength(authResponse.toString().length());
+        response.getWriter().write(authResponse.toString());
+        response.getWriter().flush();
+        response.getWriter().close();
     }
 }
