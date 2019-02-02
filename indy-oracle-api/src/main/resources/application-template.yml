@@ -1,0 +1,12 @@
+security:
+  # Ideally you would store this externally.
+  service:
+    username: <service-account>
+    password: <service-password>
+    role: SERVICE
+  jwt:
+    url: /auth/
+    header: Authorization
+    prefix: 'Bearer '
+    expiration: 3600
+    secret: <my-secret>
