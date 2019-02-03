@@ -10,7 +10,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
-import axios from 'axios';
+import SampleService from "services/sample.svc";
 
 import infoStyle from "assets/jss/material-kit-react/views/landingPageSections/infoStyle.jsx";
 
@@ -21,6 +21,8 @@ class InfoSection extends React.Component {
     this.state = {
       msg: 'Loading...'
     };
+
+    this.sampleService = new SampleService();
   }
 
   render() {
@@ -43,9 +45,12 @@ class InfoSection extends React.Component {
   }
 
   componentWillMount() {
-    axios.get('https://indy-oracle.com/api/1.0/user')
-        .then(response => this.setState({msg: response.data}));
+    this.sampleService.getGreeting(this.setMsg);
   }
+
+  setMsg = (msg) => {
+    this.setState({ ...this.state, msg: msg });
+  };
 }
 
 export default withStyles(infoStyle)(InfoSection);

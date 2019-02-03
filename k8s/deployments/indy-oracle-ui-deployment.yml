@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: indy-oracle-ui
-        image: gcr.io/third-anvil-135423/indy-oracle-ui:1.3.13
+        image: gcr.io/third-anvil-135423/indy-oracle-ui:1.4.6
         ports:
         - containerPort: 3000

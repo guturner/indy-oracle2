@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfigProperties))
                 .addFilterAfter(new JwtAuthenticationFilter(jwtConfigProperties), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
+                    .antMatchers(HttpMethod.OPTIONS, jwtConfigProperties.getUrl(), "/**").permitAll()
                     .antMatchers(HttpMethod.POST, jwtConfigProperties.getUrl()).permitAll() // Allow un-authenticated access to the auth endpoint
                     .anyRequest().authenticated(); // All other requests must be authenticated
     }
