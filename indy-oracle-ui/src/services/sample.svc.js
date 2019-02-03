@@ -8,8 +8,8 @@ class SampleService {
         this.authService = new AuthService();
     }
 
-    getGreeting = (callback) => {
-        const bearerToken = this.authService.getBearerToken();
+    getGreeting = async (callback) => {
+        const bearerToken = await this.authService.getBearerToken();
 
         axios.get('https://indy-oracle.com/api/1.0/user/', { headers: { "Authorization": bearerToken } })
             .then(response => {

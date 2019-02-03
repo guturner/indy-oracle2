@@ -5,21 +5,9 @@ import axios from "axios";
 
 class AuthService {
     getJwt = () => {
-        axios.post('https://indy-oracle.com/api/auth/', {},
+        return axios.post('https://indy-oracle.com/api/auth/', {},
             {
                 auth: { username: process.env.REACT_APP_SERVICE_USERNAME, password: process.env.REACT_APP_SERVICE_PASSWORD } 
-            })
-            .then(response => {
-                const jwtResponse = {
-                    prefix: response.data.prefix,
-                    token: response.data.token,
-                    expiresIn: response.data.expiresIn,
-                    requested: new Date().getTime()
-                };
-                store.dispatch(getJwt(jwtResponse));
-            })
-            .catch(error => {
-                console.log(error);  
             });
     };
 
@@ -34,14 +22,31 @@ class AuthService {
         }
     };
 
-    getBearerToken = () => {
+    getBearerTokenFromJwt = async () => {
+        const result = await this.getJwt();
+
+        const jwtResponse = {
+            prefix: result.data.prefix,
+            token: result.data.token,
+            expiresIn: result.data.expiresIn,
+            requested: new Date().getTime()
+        };
+
+        await store.dispatch(getJwt(jwtResponse));
+        return `${jwtResponse.prefix}${jwtResponse.token}`;
+    };
+
+    getBearerToken = async () => {
         const jwt = store.getState().jwt;
 
+        var bearerToken;
         if (jwt === '' || this.isJwtExpired(jwt.requested, jwt.expiresIn)) {
-            this.getJwt();
+            bearerToken = await this.getBearerTokenFromJwt();
+        } else {
+            bearerToken = `${jwt.prefix}${jwt.token}`;
         }
-
-        return store.getState().jwt.prefix + store.getState().jwt.token;
+ 
+        return bearerToken;
     };
 }
 
