@@ -60,12 +60,10 @@ class SignUpPage extends React.Component {
       .catch(error => {
         switch(error.code) {
           case 'auth/invalid-email':
-            this.setState({ ...this.state, badEmail: true });
-            this.setState({ ...this.state, badEmailMsg: 'Invalid email format.' });
+            this.setState({ ...this.state, badEmail: true, badEmailMsg: 'Invalid email format.' });
             break;
           case 'auth/weak-password':
-            this.setState({ ...this.state, badPassword: true });
-            this.setState({ ...this.state, badPasswordMsg: 'Weak password! Must be at least 6 characters.' });
+            this.setState({ ...this.state, badPassword: true, badPasswordMsg: 'Weak password! Must be at least 6 characters.' });
         }
       });
     

@@ -1,4 +1,4 @@
-import { GET_JWT, SIGN_IN } from "../actions/actionTypes";
+import { GET_JWT, SIGN_IN, SIGN_OUT } from "../actions/actionTypes";
 
 const initialState = {
     jwt: '',
@@ -11,6 +11,9 @@ function rootReducer(state = initialState, action) {
     }
     else if (action.type === SIGN_IN) {
         return { ...state, user: action.payload };
+    }
+    else if (action.type === SIGN_OUT) {
+        return { ...state, user: '' };
     }
 
     return state;

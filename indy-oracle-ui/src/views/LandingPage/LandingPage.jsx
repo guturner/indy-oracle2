@@ -37,7 +37,11 @@ class LandingPage extends React.Component {
       <div>
         <Header
           color="transparent"
-          rightLinks={<HeaderLinks />}
+          rightLinks={
+            <FirebaseContext.Consumer>
+                {firebase => <HeaderLinks firebase={firebase} />}
+            </FirebaseContext.Consumer>
+          }
           brand="The Indy Oracle"
           fixed
           changeColorOnScroll={{
