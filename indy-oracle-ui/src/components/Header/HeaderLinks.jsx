@@ -32,13 +32,24 @@ class HeaderLinks extends React.Component {
 
     this.state = {
       redirect: false,
-      redirectPath: ''
+      redirectPath: '',
+      mounted: false
     }
+
+    this.mounted = false;
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   handleSignIn = () => {
     this.setState({ redirect: true, redirectPath: '/auth' }, () => {
-      setTimeout(() => { this.setState({ redirect: false, redirectPath: '' }) }, 0);
+      setTimeout(() => { if (this.mounted) this.setState({ redirect: false, redirectPath: '' }) }, 0);
     });
   }
 
@@ -73,8 +84,7 @@ class HeaderLinks extends React.Component {
           buttonText={this.props.user}
           buttonProps={{
             className: classes.navLink,
-            color: "transparent",
-            textAlign: "center"
+            color: "transparent"
           }}
           dropdownList={[
             <Link to="/" onClick={this.handleSignOut} className={classes.dropdownLink}>
