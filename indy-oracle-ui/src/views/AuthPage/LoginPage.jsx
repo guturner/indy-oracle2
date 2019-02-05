@@ -59,12 +59,14 @@ class LoginPage extends React.Component {
       .catch(error => {
         switch(error.code) {
           case 'auth/invalid-email':
-            this.setState({ ...this.state, badEmail: true });
-            this.setState({ ...this.state, badEmailMsg: 'Invalid email format.' });
+            this.setState({ ...this.state, badEmail: true, badEmailMsg: 'Invalid email format.' });
             break;
           case 'auth/user-not-found':
-            this.setState({ ...this.state, badEmail: true });
-            this.setState({ ...this.state, badEmailMsg: 'User not found.' });
+            this.setState({ ...this.state, badEmail: true, badEmailMsg: 'User not found.' });
+            break;
+          case 'auth/wrong-password':
+            this.setState({ ...this.state, badPassword: true, badPasswordMsg: 'Invalid login.' });
+            break;
         }
       });
 
