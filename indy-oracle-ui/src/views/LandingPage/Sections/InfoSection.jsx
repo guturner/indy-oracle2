@@ -36,7 +36,9 @@ class InfoSection extends React.Component {
             <h4 className={classes.description}>
               {this.state.msg}
               <br/>
-              Coming soon.
+              Indy Oracle is a program dedicated to keeping cosplayers safe.
+              <br/>
+              More coming soon.
             </h4>
           </GridItem>
         </GridContainer>

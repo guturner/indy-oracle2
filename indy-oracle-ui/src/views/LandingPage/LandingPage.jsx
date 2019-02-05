@@ -64,7 +64,11 @@ class LandingPage extends React.Component {
                       Coming soon.
                     </h4>
                   </div> :
-                  null
+                  <div>
+                    <h1 className={classes.title}>
+                      It's dangerous to go alone...
+                    </h1>
+                  </div>
                 }
               </GridItem>
             </GridContainer>
