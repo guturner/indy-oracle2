@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "security.service")
-public class ServiceAccountConfig {
+public class ServiceAccountConfigProperties {
 
     private String username;
     private String password;
@@ -37,7 +37,7 @@ public class ServiceAccountConfig {
 
     @Override
     public String toString() {
-        return "ServiceAccountConfig{" +
+        return "ServiceAccountConfigProperties{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +

@@ -1,6 +1,6 @@
 package com.indyoracle.api.services;
 
-import com.indyoracle.api.config.ServiceAccountConfig;
+import com.indyoracle.api.config.ServiceAccountConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -23,16 +23,16 @@ public class ApiUserService implements UserDetailsService {
     BCryptPasswordEncoder encoder;
 
     @Autowired
-    ServiceAccountConfig serviceAccountConfig;
+    ServiceAccountConfigProperties serviceAccountConfigProperties;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        if (serviceAccountConfig.getUsername().equals(username)) {
+        if (serviceAccountConfigProperties.getUsername().equals(username)) {
             List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                    .commaSeparatedStringToAuthorityList("ROLE_" + serviceAccountConfig.getRole());
+                    .commaSeparatedStringToAuthorityList("ROLE_" + serviceAccountConfigProperties.getRole());
 
-            return new User(serviceAccountConfig.getUsername(), encoder.encode(serviceAccountConfig.getPassword()), grantedAuthorities);
+            return new User(serviceAccountConfigProperties.getUsername(), encoder.encode(serviceAccountConfigProperties.getPassword()), grantedAuthorities);
         }
 
         throw new UsernameNotFoundException("username: " + username + " not found.");

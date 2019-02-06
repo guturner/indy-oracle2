@@ -6,6 +6,7 @@ node_modules/
 .gradle/
 .DS_Store
 
+indy-oracle-api/credentials.json
 indy-oracle-api/src/main/resources/application.yml
 indy-oracle-ui/.env
 indy-oracle-ui/.vscode/
