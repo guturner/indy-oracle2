@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class EmailController {
 
-    @PostMapping(value = "/sms/", produces = MediaType.APPLICATION_XML_VALUE)
+    @PostMapping(value = "/1.0/sms/", produces = MediaType.APPLICATION_XML_VALUE)
     @ApiOperation("Twilio WebHook.")
     public ResponseEntity<String> twilioWebHook() {
         Body body = new Body
