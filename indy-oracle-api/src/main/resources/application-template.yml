@@ -10,3 +10,7 @@ security:
     prefix: 'Bearer '
     expiration: 3600
     secret: <my-secret>
+  twilio:
+    url: /sms/
+    sid: <sid>
+    authToken: <auth-token>

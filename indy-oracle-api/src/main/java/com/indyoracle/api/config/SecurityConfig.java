@@ -25,6 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtConfigProperties jwtConfigProperties;
 
+    @Autowired
+    private TwilioConfigProperties twilioConfigProperties;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -38,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(HttpMethod.OPTIONS, jwtConfigProperties.getUrl(), "/**").permitAll()
                     .antMatchers(HttpMethod.POST, jwtConfigProperties.getUrl()).permitAll() // Allow un-authenticated access to the auth endpoint
+                    .antMatchers(HttpMethod.POST, twilioConfigProperties.getUrl()).permitAll() // Allow un-authenticated access to the Twilio webhook
                     .anyRequest().authenticated(); // All other requests must be authenticated
     }
 

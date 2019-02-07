@@ -29,9 +29,7 @@ repositories {
 
 dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
-	compile('com.google.api-client:google-api-client:1.25.0')
-	compile('com.google.api-client:google-api-client-appengine:1.25.0')
-	compile('com.google.apis:google-api-services-gmail:v1-rev83-1.23.0')
+	compile('com.twilio.sdk:twilio:7.17.+')
     compile('io.jsonwebtoken:jjwt:0.9.0')
 	compile('io.springfox:springfox-swagger2:2.9.2')
 	compile('io.springfox:springfox-swagger-ui:2.9.2')
