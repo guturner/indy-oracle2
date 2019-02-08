@@ -3,19 +3,20 @@ import store from "../store";
 
 import axios from "axios";
 
-class SampleService {
+class UserService {
     constructor() {
         this.authService = new AuthService();
+        this.baseUrl = process.env.REACT_APP_API_BASE_URL;
     }
 
-    getGreeting = async (callback) => {
+    getUsers = async (callback) => {
         const bearerToken = await this.authService.getBearerToken();
 
-        axios.get('https://indy-oracle.com/api/1.0/user/', { headers: { "Authorization": bearerToken } })
+        axios.get(`${this.baseUrl}/1.0/users/`, { headers: { "Authorization": bearerToken } })
             .then(response => {
                 callback(response.data);
             });
     };
 }
 
-export default SampleService;
+export default UserService;

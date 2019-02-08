@@ -87,6 +87,9 @@ class HeaderLinks extends React.Component {
             color: "transparent"
           }}
           dropdownList={[
+            <Link to="/roster" className={classes.dropdownLink}>
+              Roster
+            </Link>,
             <Link to="/" onClick={this.handleSignOut} className={classes.dropdownLink}>
               Signout
             </Link>

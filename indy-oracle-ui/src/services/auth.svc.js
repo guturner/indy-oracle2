@@ -4,8 +4,12 @@ import store from "../store";
 import axios from "axios";
 
 class AuthService {
+    constructor() {
+        this.baseUrl = process.env.REACT_APP_API_BASE_URL;
+    }
+
     getJwt = () => {
-        return axios.post('https://indy-oracle.com/api/auth/', {},
+        return axios.post(`${this.baseUrl}/auth/`, {},
             {
                 auth: { username: process.env.REACT_APP_SERVICE_USERNAME, password: process.env.REACT_APP_SERVICE_PASSWORD } 
             });

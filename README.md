@@ -15,6 +15,7 @@ Demonstrates knowledge of:
 - React
 - Redux
 - Spring Boot 2
+- Twilio
 
 # Setup Guide
 Note: I am using Google Cloud as my Kubernetes provider, so these instructions will focus on that.
