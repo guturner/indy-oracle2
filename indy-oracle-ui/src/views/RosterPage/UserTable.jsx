@@ -1,6 +1,6 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 import Paper from '@material-ui/core/Paper';
 import { Grid, Table, TableHeaderRow } from '@devexpress/dx-react-grid-material-ui';
@@ -15,11 +15,11 @@ function mapDispatchToProps(dispatch) {
     };
   };
   
-  function mapStateToProps(state) {
-    return {
-      user: state.user
-    };
+function mapStateToProps(state) {
+  return {
+    user: state.user
   };
+};
 
 class UserTable extends React.Component {
 
@@ -28,8 +28,7 @@ class UserTable extends React.Component {
       this.state = {
         columns: [
             { name: 'email', title: 'Email' },
-            { name: 'phoneNumber', title: 'Phone Number' },
-            { name: 'userId', title: 'User Id' }
+            { name: 'phoneNumber', title: 'Phone Number' }
         ],
         rows: [
 
@@ -37,6 +36,7 @@ class UserTable extends React.Component {
       };
   
       this.userService = new UserService();
+      this.userService.getUsers(this.setUsers);
     }
   
     render() {
@@ -53,10 +53,6 @@ class UserTable extends React.Component {
         </Grid>
       </Paper>
       );
-    }
-  
-    componentWillMount() {
-      this.userService.getUsers(this.setUsers);
     }
   
     setUsers = (users) => {

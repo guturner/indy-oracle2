@@ -1,5 +1,6 @@
 import React from "react";
-
+import { connect } from "react-redux";
+import { Redirect } from 'react-router-dom';
 import classNames from "classnames";
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -18,6 +19,12 @@ import authStyle from "assets/jss/material-kit-react/views/authPage.jsx";
 
 import { FirebaseContext } from '../../firebase';
 
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    };
+};
+
 class AuthPage extends React.Component {
 
     constructor() {
@@ -27,6 +34,11 @@ class AuthPage extends React.Component {
 
     render() {
         const { classes, ...rest } = this.props;
+
+        if (this.props.user !== '') {
+            return <Redirect push to="/" />
+        }
+
         return (
         <div>
             <Header
@@ -69,5 +81,6 @@ class AuthPage extends React.Component {
         );
     }
 }
-  
-export default withStyles(authStyle)(AuthPage);
+
+const StatefulAuthPage = connect(mapStateToProps, null)(AuthPage)
+export default withStyles(authStyle)(StatefulAuthPage);
