@@ -8,7 +8,12 @@ node_modules/
 
 *.iml
 
+indy-oracle-api/build.bat
 indy-oracle-api/firebase-credentials.json
 indy-oracle-api/src/main/resources/application.yml
 indy-oracle-ui/.env
 indy-oracle-ui/.vscode/
+indy-oracle-ui/build.bat
+
+k8s/deployments/indy-oracle-api-deployment.yml
+k8s/deployments/indy-oracle-ui-deployment.yml
