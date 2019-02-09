@@ -35,10 +35,6 @@ class AuthPage extends React.Component {
     render() {
         const { classes, ...rest } = this.props;
 
-        if (this.props.user !== '') {
-            return <Redirect push to="/" />
-        }
-
         return (
         <div>
             <Header

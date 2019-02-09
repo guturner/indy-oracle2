@@ -14,10 +14,6 @@ import Firebase, { FirebaseContext } from "./firebase";
 
 var hist = createBrowserHistory();
 
-hist.listen((location, action) => {
-  console.log(location.pathname, location, action);
-});
-
 ReactDOM.render(
   <Provider store={store}>
     <FirebaseContext.Provider value={new Firebase()}>
