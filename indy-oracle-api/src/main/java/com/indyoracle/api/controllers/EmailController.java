@@ -45,7 +45,7 @@ public class EmailController {
         }
 
         Optional<User> user = userService.getUsers().stream()
-                .filter(u -> u.getPhoneNumber().equals(from))
+                .filter(u -> from.equals(u.getPhoneNumber()))
                 .findFirst();
 
         Body body;
