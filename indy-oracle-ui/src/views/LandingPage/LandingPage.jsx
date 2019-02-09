@@ -58,7 +58,7 @@ class LandingPage extends React.Component {
                   this.props.user !== '' ?
                   <div>
                     <h1 className={classes.title} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
-                      317-584-{this.state.phoneNumber}
+                      317-597-{this.state.phoneNumber}
                     </h1>
                     <h4>
                       Coming soon.

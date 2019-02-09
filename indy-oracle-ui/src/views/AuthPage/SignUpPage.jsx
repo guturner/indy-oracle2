@@ -71,7 +71,7 @@ class SignUpPage extends React.Component {
         .doCreateUserWithEmailAndPassword(email, password)
         .then(response => {
           this.props.signIn(response.user.email);
-          this.setState({ ...this.state, uid: response.user.uid })
+          this.setState({ ...this.state, uid: response.user.uid, redirect: true });
         })
         .catch(error => {
           switch(error.code) {
