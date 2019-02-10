@@ -71,6 +71,12 @@ class SignUpPage extends React.Component {
         .doCreateUserWithEmailAndPassword(email, password)
         .then(response => {
           this.props.signIn(response.user.email);
+
+          console.log(this.props.firebase.auth);
+          
+          this.props.firebase
+            .doCreateUserEntry(this.state.uid, this.state.email, this.trimPhoneNumber(this.state.phoneNumber), this.state.codeWord);
+
           this.setState({ ...this.state, uid: response.user.uid, redirect: true });
         })
         .catch(error => {
@@ -86,9 +92,6 @@ class SignUpPage extends React.Component {
               break;
           }
         });
-
-      this.props.firebase
-        .doCreateUserEntry(this.state.uid, this.state.email, this.trimPhoneNumber(this.state.phoneNumber), this.state.codeWord);
     }
   };
 
