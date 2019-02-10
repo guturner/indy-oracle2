@@ -72,8 +72,6 @@ class SignUpPage extends React.Component {
         .then(response => {
           this.props.signIn(response.user.email);
 
-          console.log(this.props.firebase.auth);
-          
           this.props.firebase
             .doCreateUserEntry(this.state.uid, this.state.email, this.trimPhoneNumber(this.state.phoneNumber), this.state.codeWord);
 
