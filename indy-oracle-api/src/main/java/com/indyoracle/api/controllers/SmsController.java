@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-public class EmailController {
-    private final Logger LOGGER = LoggerFactory.getLogger(EmailController.class);
+public class SmsController {
+    private final Logger LOGGER = LoggerFactory.getLogger(SmsController.class);
 
     private final TwilioConfigProperties twilioConfigProperties;
     private final UserService userService;
 
     @Autowired
-    public EmailController(
+    public SmsController(
             TwilioConfigProperties twilioConfigProperties,
             UserService userService) {
         this.twilioConfigProperties = twilioConfigProperties;
@@ -44,12 +44,10 @@ public class EmailController {
             return ResponseEntity.badRequest().body("Naughty, naughty... The Oracle is watching.");
         }
 
-        Optional<User> user = userService.getUsers().stream()
-                .filter(u -> from.equals(u.getPhoneNumber()))
-                .findFirst();
+        User user = userService.findUserByPhoneNumber(from);
 
         Body body;
-        if (user.isPresent()) {
+        if (user != null) {
             body = new Body
                     .Builder("Indy Oracle is online.")
                     .build();
