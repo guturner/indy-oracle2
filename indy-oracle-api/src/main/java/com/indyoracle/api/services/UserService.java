@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -61,22 +64,56 @@ public class UserService {
         return findUserByField("phoneNumber", phoneNumber);
     }
 
-    User findUserByField(String field, String value) {
+    public List<User> getAdmins() {
+        return findUsersByField("isAdmin", true);
+    }
+
+    public List<User> getVolunteers() {
+        return findUsersByField("isVolunteer", true);
+    }
+
+    User findUserByField(String field, Object value) {
         User user = null;
 
         try {
             ApiFuture<QuerySnapshot> future = db.collection("users").get();
-
-            for (QueryDocumentSnapshot document : future.get().getDocuments()) {
-                if (value.equals(document.get(field).toString())) {
-                    user = document.toObject(User.class);
-                }
-            }
-        } catch (Exception ex) {
+            user = getUserByValue(future, field, value);
+        } catch (ExecutionException | InterruptedException ex) {
             LOGGER.error("Failed to retrieve user from Firestore: ", ex);
             throw new FirebaseException("Failed to retrieve user metadata by Field: " + field);
         }
 
         return user;
+    }
+
+    List<User> findUsersByField(String field, Object value) {
+        List<User> users = null;
+
+        try {
+            ApiFuture<QuerySnapshot> future = db.collection("users").get();
+            users = getUsersByValue(future, field, value);
+        } catch (ExecutionException | InterruptedException ex) {
+            LOGGER.error("Failed to retrieve users from Firestore: ", ex);
+            throw new FirebaseException("Failed to retrieve user metadata by Field: " + field);
+        }
+
+        return users;
+    }
+
+    User getUserByValue(ApiFuture<QuerySnapshot> queryResult, String field, Object value) throws ExecutionException, InterruptedException {
+        Optional<QueryDocumentSnapshot> userDocument = queryResult.get().getDocuments()
+                .stream()
+                .filter(document -> value.equals(document.get(field)))
+                .findFirst();
+
+        return userDocument.isPresent() ? userDocument.get().toObject(User.class) : null;
+    }
+
+    List<User> getUsersByValue(ApiFuture<QuerySnapshot> queryResult, String field, Object value) throws ExecutionException, InterruptedException {
+        return queryResult.get().getDocuments()
+                .stream()
+                .filter(document -> value.equals(document.get(field)))
+                .map(document -> document.toObject(User.class))
+                .collect(Collectors.toList());
     }
 }

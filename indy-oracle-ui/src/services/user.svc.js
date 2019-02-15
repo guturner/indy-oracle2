@@ -9,6 +9,15 @@ class UserService {
         this.baseUrl = process.env.REACT_APP_API_BASE_URL;
     }
 
+    getUsersObfuscated = async (callback) => {
+        const bearerToken = await this.authService.getBearerToken();
+
+        axios.get(`${this.baseUrl}/1.0/users/obfuscate/`, { headers: { "Authorization": bearerToken } })
+            .then(response => {
+                callback(response.data);
+            });
+    };
+
     getUsers = async (callback) => {
         const bearerToken = await this.authService.getBearerToken();
 

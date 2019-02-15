@@ -28,7 +28,9 @@ class UserTable extends React.Component {
       this.state = {
         columns: [
             { name: 'email', title: 'Email' },
-            { name: 'phoneNumber', title: 'Phone Number' }
+            { name: 'phoneNumber', title: 'Phone Number' },
+            { name: 'volunteer', title: 'Volunteer' },
+            { name: 'admin', title: 'Admin'}
         ],
         rows: [
 
@@ -36,7 +38,7 @@ class UserTable extends React.Component {
       };
   
       this.userService = new UserService();
-      this.userService.getUsers(this.setUsers);
+      this.userService.getUsersObfuscated(this.setUsers);
     }
   
     render() {

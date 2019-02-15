@@ -2,6 +2,7 @@ package com.indyoracle.api.controllers;
 
 import com.indyoracle.api.config.TwilioConfigProperties;
 import com.indyoracle.api.dtos.User;
+import com.indyoracle.api.services.SmsService;
 import com.indyoracle.api.services.UserService;
 import com.twilio.twiml.MessagingResponse;
 import com.twilio.twiml.messaging.Body;
@@ -16,20 +17,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @RestController
 public class SmsController {
     private final Logger LOGGER = LoggerFactory.getLogger(SmsController.class);
 
     private final TwilioConfigProperties twilioConfigProperties;
+    private final SmsService smsService;
     private final UserService userService;
 
     @Autowired
     public SmsController(
             TwilioConfigProperties twilioConfigProperties,
+            SmsService smsService,
             UserService userService) {
         this.twilioConfigProperties = twilioConfigProperties;
+        this.smsService = smsService;
         this.userService = userService;
     }
 
@@ -44,7 +46,8 @@ public class SmsController {
             return ResponseEntity.badRequest().body("Naughty, naughty... The Oracle is watching.");
         }
 
-        User user = userService.findUserByPhoneNumber(from);
+        String phoneNumber = smsService.stripCountryCode(from);
+        User user = userService.findUserByPhoneNumber(phoneNumber);
 
         Body body;
         if (user != null) {
