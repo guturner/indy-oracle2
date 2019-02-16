@@ -32,9 +32,7 @@ class UserTable extends React.Component {
             { name: 'volunteer', title: 'Volunteer' },
             { name: 'admin', title: 'Admin'}
         ],
-        rows: [
-
-        ]
+        rows: [ ]
       };
   
       this.userService = new UserService();
@@ -58,7 +56,18 @@ class UserTable extends React.Component {
     }
   
     setUsers = (users) => {
-      this.setState({ ...this.state, rows: users });
+      const formattedUsers = this.formatUsers(users);
+      this.setState({ ...this.state, rows: formattedUsers });
+    };
+
+    formatUsers = (users) => {
+      let formattedUsers = [];
+
+      users.forEach(u => {
+        formattedUsers.push({ ...u, admin: u.admin ? 'X' : '', volunteer: u.volunteer ? 'X' : '' });
+      });
+
+      return formattedUsers;
     };
   }
   
