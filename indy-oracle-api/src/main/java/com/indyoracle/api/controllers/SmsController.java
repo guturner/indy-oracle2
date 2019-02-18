@@ -76,6 +76,7 @@ public class SmsController {
     @PostMapping(value = "/1.0/sms/results/", produces = MediaType.APPLICATION_XML_VALUE)
     @ApiOperation("Twilio callback WebHook.")
     public ResponseEntity twilioCallbackWebHook(
+            @RequestParam("To") String to,
             @RequestParam("From") String from,
             @RequestParam("MessageStatus") String messageStatus,
             @RequestParam("AccountSid") String accountSid) {
@@ -84,7 +85,7 @@ public class SmsController {
             return ResponseEntity.badRequest().body("Naughty, naughty... The Oracle is watching.");
         }
 
-        String phoneNumber = smsService.stripCountryCode(from);
+        String phoneNumber = smsService.stripCountryCode(to);
         User user = userService.findUserByPhoneNumber(phoneNumber);
 
         if (user != null) {
