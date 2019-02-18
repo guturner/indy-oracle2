@@ -51,8 +51,10 @@ public class SmsController {
 
         Body body;
         if (user != null) {
+            smsService.contactVolunteers(user);
+
             body = new Body
-                    .Builder("Indy Oracle is online.")
+                    .Builder("Sit tight, citizen!\nIndy Oracle is finding a volunteer in your area.\nIf this is an emergency, please dial 911.")
                     .build();
         } else {
             body = new Body

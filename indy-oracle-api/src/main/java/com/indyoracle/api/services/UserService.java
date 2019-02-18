@@ -35,6 +35,10 @@ public class UserService {
         this.db = db;
     }
 
+    public List<User> getUsers() throws FirebaseException {
+        return getUsers(Boolean.FALSE);
+    }
+
     public List<User> getUsers(boolean obfuscate) throws FirebaseException {
         List<User> users = new ArrayList();
 
@@ -65,11 +69,11 @@ public class UserService {
     }
 
     public List<User> getAdmins() {
-        return findUsersByField("isAdmin", true);
+        return findUsersByField("admin", true);
     }
 
     public List<User> getVolunteers() {
-        return findUsersByField("isVolunteer", true);
+        return findUsersByField("volunteer", true);
     }
 
     User findUserByField(String field, Object value) {
