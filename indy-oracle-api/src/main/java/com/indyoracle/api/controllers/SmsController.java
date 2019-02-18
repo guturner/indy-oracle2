@@ -36,8 +36,8 @@ public class SmsController {
     }
 
     @PostMapping(value = "/1.0/sms/", produces = MediaType.APPLICATION_XML_VALUE)
-    @ApiOperation("Twilio WebHook.")
-    public ResponseEntity<String> twilioWebHook(
+    @ApiOperation("Twilio response WebHook.")
+    public ResponseEntity<String> twilioResponseWebHook(
             @RequestParam("From") String from,
             @RequestParam("Body") String requestBody,
             @RequestParam("AccountSid") String accountSid) {
@@ -72,4 +72,37 @@ public class SmsController {
                 .build();
         return ResponseEntity.ok(twiml.toXml());
     }
+
+    @PostMapping(value = "/1.0/sms/results/", produces = MediaType.APPLICATION_XML_VALUE)
+    @ApiOperation("Twilio callback WebHook.")
+    public ResponseEntity twilioCallbackWebHook(
+            @RequestParam("From") String from,
+            @RequestParam("MessageStatus") String messageStatus,
+            @RequestParam("AccountSid") String accountSid) {
+        if (!twilioConfigProperties.getSid().equals(accountSid)) {
+            LOGGER.warn("Unknown Entity: {} attempted to post.", from);
+            return ResponseEntity.badRequest().body("Naughty, naughty... The Oracle is watching.");
+        }
+
+        String phoneNumber = smsService.stripCountryCode(from);
+        User user = userService.findUserByPhoneNumber(phoneNumber);
+
+        if (user != null) {
+
+            switch (messageStatus) {
+                case "sent":
+                case "delivered":
+                    smsService.informRequestSucceeded(user);
+                    break;
+                case "failed":
+                case "undelivered":
+                    smsService.informRequestFailed(user);
+                    break;
+            }
+
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok().build();
 }

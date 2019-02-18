@@ -57,6 +57,20 @@ public class SmsService {
         return result;
     }
 
+    public Message informRequestSucceeded(User to) {
+        String body = String.format("Hello!\nWe've found some volunteers ready to help!\nYou should be receiving a text soon.");
+
+        return Message.creator(new PhoneNumber("+1" + to.getPhoneNumber()),  new PhoneNumber(INDY_ORACLE_PHONE), body)
+                .create();
+    }
+
+    public Message informRequestFailed(User to) {
+        String body = String.format("Unfortunately we were unable to deliver your request.");
+
+        return Message.creator(new PhoneNumber("+1" + to.getPhoneNumber()),  new PhoneNumber(INDY_ORACLE_PHONE), body)
+                .create();
+    }
+
     Message sendRequestForHelp(User from, User to) {
         String greeting = getTimeAppropriateGreeting(LocalDateTime.now(ZoneId.of("America/Indianapolis")));
         String body = String.format("%s\nA citizen is in need of help!\nPlease contact %s as soon as possible to provide assistance.\nThank you!", greeting, from.getPhoneNumber());
