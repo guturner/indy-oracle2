@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.OPTIONS, jwtConfigProperties.getUrl(), "/**").permitAll()
                     .antMatchers(HttpMethod.POST, jwtConfigProperties.getUrl()).permitAll() // Allow un-authenticated access to the auth endpoint
                     .antMatchers(HttpMethod.POST, twilioConfigProperties.getUrl()).permitAll() // Allow un-authenticated access to the Twilio webhook
+                    .antMatchers(HttpMethod.POST, twilioConfigProperties.getCallback()).permitAll()
                     .anyRequest().authenticated(); // All other requests must be authenticated
     }
 

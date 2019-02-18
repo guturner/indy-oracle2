@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class TwilioConfigProperties {
 
     private String url;
+    private String callback;
     private String sid;
     private String authToken;
 
@@ -17,6 +18,14 @@ public class TwilioConfigProperties {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getCallback() {
+        return callback;
+    }
+
+    public void setCallback(String callback) {
+        this.callback = callback;
     }
 
     public String getSid() {
@@ -39,6 +48,7 @@ public class TwilioConfigProperties {
     public String toString() {
         return "TwilioConfigProperties{" +
                 "url='" + url + '\'' +
+                ", callback='" + callback + '\'' +
                 ", sid='" + sid + '\'' +
                 ", authToken='" + authToken + '\'' +
                 '}';

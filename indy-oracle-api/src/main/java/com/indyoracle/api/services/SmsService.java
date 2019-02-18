@@ -58,14 +58,14 @@ public class SmsService {
     }
 
     public Message informRequestSucceeded(User to) {
-        String body = String.format("Hello!\nWe've found some volunteers ready to help!\nYou should be receiving a text soon.");
+        String body = String.format("Good news!\nWe've found some volunteers ready to help!\nYou should be receiving a text soon.\nIf this is an emergency, please dial 911.");
 
         return Message.creator(new PhoneNumber("+1" + to.getPhoneNumber()),  new PhoneNumber(INDY_ORACLE_PHONE), body)
                 .create();
     }
 
     public Message informRequestFailed(User to) {
-        String body = String.format("Unfortunately we were unable to deliver your request.");
+        String body = String.format("Unfortunately we were unable to deliver your request.\nIf this is an emergency, please dial 911.");
 
         return Message.creator(new PhoneNumber("+1" + to.getPhoneNumber()),  new PhoneNumber(INDY_ORACLE_PHONE), body)
                 .create();
