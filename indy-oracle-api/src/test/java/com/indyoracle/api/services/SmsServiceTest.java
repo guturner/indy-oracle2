@@ -16,7 +16,7 @@ public class SmsServiceTest {
 
     @Before
     public void setup() {
-        smsService = new SmsService(null, null);
+        smsService = new SmsService(null, null, null);
     }
 
     @Test

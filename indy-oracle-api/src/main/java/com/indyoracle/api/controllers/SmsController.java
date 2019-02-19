@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -88,21 +87,11 @@ public class SmsController {
             @RequestParam("To") String to,
             @RequestParam("From") String from,
             @RequestParam("MessageStatus") String messageStatus,
-            @RequestParam("MessageSid") String messageSid,
             @RequestParam("AccountSid") String accountSid) {
         if (!twilioConfigProperties.getSid().equals(accountSid)) {
             LOGGER.warn("Unknown Entity: {} attempted to post.", from);
             return ResponseEntity.badRequest().body("Naughty, naughty... The Oracle is watching.");
         }
-
-        SmsMessage duplicate = smsService.getSmsMessageByMessageSid(messageSid);
-        if (duplicate != null && duplicate.isResponded()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-
-        SmsMessage messageDto = new SmsMessage();
-        messageDto.setMessageSid(messageSid);
-        messageDto.setTo(to);
 
         String phoneNumber = smsService.stripCountryCode(to);
         User user = userService.findUserByPhoneNumber(phoneNumber);
@@ -110,14 +99,8 @@ public class SmsController {
         if (user != null) {
 
             switch (messageStatus) {
-                case "sent":
-                case "delivered":
-                    smsService.logMessage(messageDto);
-                    smsService.informRequestSucceeded(user);
-                    break;
                 case "failed":
                 case "undelivered":
-                    smsService.logMessage(messageDto);
                     smsService.informRequestFailed(user);
                     break;
             }

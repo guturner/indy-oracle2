@@ -70,13 +70,6 @@ public class SmsService {
         return result;
     }
 
-    public Message informRequestSucceeded(User to) {
-        String body = String.format("Good news!\nWe've found some volunteers ready to help!\nYou should be receiving a text soon.\nIf this is an emergency, please dial 911.");
-
-        return Message.creator(new PhoneNumber("+1" + to.getPhoneNumber()),  new PhoneNumber(INDY_ORACLE_PHONE), body)
-                .create();
-    }
-
     public Message informRequestFailed(User to) {
         String body = String.format("Unfortunately we were unable to deliver your request.\nIf this is an emergency, please dial 911.");
 
@@ -109,20 +102,7 @@ public class SmsService {
 
     public void logMessage(SmsMessage message) {
         DocumentReference messageDocument = db.collection("messages").document(message.getMessageSid());
-
-        ApiFuture<DocumentSnapshot> future = messageDocument.get();
-
-        try {
-            DocumentSnapshot document = future.get();
-            if (document.exists()) {
-                messageDocument.update("responded", Boolean.TRUE);
-            } else {
-                messageDocument.set(message);
-            }
-        } catch (ExecutionException | InterruptedException ex) {
-            LOGGER.error("Failed to retrieve messages from Firestore: ", ex);
-            throw new FirebaseException("Failed to retrieve message.");
-        }
+        messageDocument.set(message);
     }
 
     public SmsMessage getSmsMessageByMessageSid(String messageSid) {
