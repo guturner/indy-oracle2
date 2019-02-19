@@ -1,10 +1,18 @@
 package com.indyoracle.api.services;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
 import com.indyoracle.api.config.TwilioConfigProperties;
+import com.indyoracle.api.dtos.SmsMessage;
 import com.indyoracle.api.dtos.User;
+import com.indyoracle.api.exceptions.FirebaseException;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +21,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class SmsService {
+    private final Logger LOGGER = LoggerFactory.getLogger(SmsService.class);
 
     private final String INDY_ORACLE_PHONE = "+13175976725";
     private final String TWILIO_CALLBACK_URL = "https://indy-oracle.com/api/1.0/sms/results/";
@@ -26,13 +36,16 @@ public class SmsService {
 
     private final TwilioConfigProperties twilioConfigProperties;
     private final UserService userService;
+    private final Firestore db;
 
     @Autowired
     public SmsService(
             TwilioConfigProperties twilioConfigProperties,
-            UserService userService) {
+            UserService userService,
+            Firestore db) {
         this.twilioConfigProperties = twilioConfigProperties;
         this.userService = userService;
+        this.db = db;
 
         if (twilioConfigProperties != null) {
             Twilio.init(twilioConfigProperties.getSid(), twilioConfigProperties.getAuthToken());
@@ -91,6 +104,42 @@ public class SmsService {
             return AFTERNOON_GREETING;
         } else {
             return EVENING_GREETING;
+        }
+    }
+
+    public void logMessage(SmsMessage message) {
+        DocumentReference messageDocument = db.collection("messages").document(message.getMessageSid());
+
+        ApiFuture<DocumentSnapshot> future = messageDocument.get();
+
+        try {
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                messageDocument.update("responded", Boolean.TRUE);
+            } else {
+                messageDocument.set(message);
+            }
+        } catch (ExecutionException | InterruptedException ex) {
+            LOGGER.error("Failed to retrieve messages from Firestore: ", ex);
+            throw new FirebaseException("Failed to retrieve message.");
+        }
+    }
+
+    public SmsMessage getSmsMessageByMessageSid(String messageSid) {
+        DocumentReference messageDocument = db.collection("messages").document(messageSid);
+
+        ApiFuture<DocumentSnapshot> future = messageDocument.get();
+
+        try {
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                return document.toObject(SmsMessage.class);
+            } else {
+                return null;
+            }
+        } catch (ExecutionException | InterruptedException ex) {
+            LOGGER.error("Failed to retrieve messages from Firestore: ", ex);
+            throw new FirebaseException("Failed to retrieve message by messageId: " + messageSid);
         }
     }
 }

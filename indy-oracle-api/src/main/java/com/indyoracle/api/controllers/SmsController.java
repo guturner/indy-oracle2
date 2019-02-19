@@ -1,6 +1,7 @@
 package com.indyoracle.api.controllers;
 
 import com.indyoracle.api.config.TwilioConfigProperties;
+import com.indyoracle.api.dtos.SmsMessage;
 import com.indyoracle.api.dtos.User;
 import com.indyoracle.api.services.SmsService;
 import com.indyoracle.api.services.UserService;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,11 +42,17 @@ public class SmsController {
     public ResponseEntity<String> twilioResponseWebHook(
             @RequestParam("From") String from,
             @RequestParam("Body") String requestBody,
+            @RequestParam("MessageSid") String messageSid,
             @RequestParam("AccountSid") String accountSid) {
         if (!twilioConfigProperties.getSid().equals(accountSid)) {
             LOGGER.warn("Unknown Entity: {} attempted to post Body: {}.", from, requestBody);
             return ResponseEntity.badRequest().body("Naughty, naughty... The Oracle is watching.");
         }
+
+        SmsMessage messageDto = new SmsMessage();
+        messageDto.setMessageSid(messageSid);
+        messageDto.setTo(from);
+        messageDto.setBody(requestBody);
 
         String phoneNumber = smsService.stripCountryCode(from);
         User user = userService.findUserByPhoneNumber(phoneNumber);
@@ -61,6 +69,7 @@ public class SmsController {
                     .Builder("Hello, citizen!\nIndy Oracle is expanding. Find out more at https://indy-oracle.com/\nIf this is an emergency, please dial 911.")
                     .build();
         }
+        smsService.logMessage(messageDto);
 
         Message sms = new Message
                 .Builder()
@@ -79,11 +88,21 @@ public class SmsController {
             @RequestParam("To") String to,
             @RequestParam("From") String from,
             @RequestParam("MessageStatus") String messageStatus,
+            @RequestParam("MessageSid") String messageSid,
             @RequestParam("AccountSid") String accountSid) {
         if (!twilioConfigProperties.getSid().equals(accountSid)) {
             LOGGER.warn("Unknown Entity: {} attempted to post.", from);
             return ResponseEntity.badRequest().body("Naughty, naughty... The Oracle is watching.");
         }
+
+        SmsMessage duplicate = smsService.getSmsMessageByMessageSid(messageSid);
+        if (duplicate != null && duplicate.isResponded()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+        SmsMessage messageDto = new SmsMessage();
+        messageDto.setMessageSid(messageSid);
+        messageDto.setTo(to);
 
         String phoneNumber = smsService.stripCountryCode(to);
         User user = userService.findUserByPhoneNumber(phoneNumber);
@@ -93,10 +112,12 @@ public class SmsController {
             switch (messageStatus) {
                 case "sent":
                 case "delivered":
+                    smsService.logMessage(messageDto);
                     smsService.informRequestSucceeded(user);
                     break;
                 case "failed":
                 case "undelivered":
+                    smsService.logMessage(messageDto);
                     smsService.informRequestFailed(user);
                     break;
             }
