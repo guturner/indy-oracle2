@@ -328,7 +328,7 @@ class SignUpPage extends React.Component {
                         <Tooltip
                           id="accessTokenToolTip"
                           title="A unique code given to you by a Hero."
-                          placement="top"
+                          placement="left"
                           classes={{ tooltip: classes.tooltip }}
                         >
                           <Help />
