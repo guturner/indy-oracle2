@@ -64,7 +64,7 @@ class UserTable extends React.Component {
       let formattedUsers = [];
 
       users.forEach(u => {
-        formattedUsers.push({ ...u, admin: u.admin ? 'X' : '', volunteer: u.volunteer ? 'X' : '' });
+        formattedUsers.push({ ...u, admin: u.admin ? 'YES' : 'NO', volunteer: u.volunteer ? 'YES' : 'NO' });
       });
 
       return formattedUsers;

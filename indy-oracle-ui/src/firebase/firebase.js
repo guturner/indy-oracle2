@@ -35,6 +35,21 @@ class Firebase {
         codeWord: codeWord
       });  
     };
+
+    doGetAccessToken = (accessToken) => {
+      const docRef = this.db.collection('tokens').doc(accessToken);
+      return docRef.get();
+    };
+
+    isValidAccessToken = async (accessToken) => {
+      const doc = await this.doGetAccessToken(accessToken);
+      return doc.exists && !doc.data().used;
+    };
+
+    doUseAccessToken = async (accessToken, usedBy) => {
+      const docRef = await this.db.collection('tokens').doc(accessToken);
+      docRef.update({ used: true, usedBy: usedBy });
+    };
 }
 
 export default Firebase;

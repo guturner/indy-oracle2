@@ -51,20 +51,25 @@ class SignUpPage extends React.Component {
       phoneNumber: '',
       codeWord: '',
       badCodeWord: false,
-      badCodeWordMsg: ''
+      badCodeWordMsg: '',
+      accessToken: '',
+      badAccessToken: false,
+      badAccessTokenMsg: ''
     };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onSubmit = event => {
+  onSubmit = async event => {
     event.preventDefault();
     const { email, password } = this.state;
 
     this.setState({ ...this.state, badEmail: false, badEmailMsg: '', badPassword: false, badPasswordMsg: '' });
 
     const isBadCodeWord = this.isBadCodeWord();
-    if (isBadCodeWord) {
+    const isBadAccessToken = await this.isBadAccessToken();
+
+    if (isBadCodeWord || isBadAccessToken) {
       return;
     } else {
       this.props.firebase
@@ -74,6 +79,9 @@ class SignUpPage extends React.Component {
 
           this.props.firebase
             .doCreateUserEntry(this.state.uid, this.state.email, this.trimPhoneNumber(this.state.phoneNumber), this.state.codeWord);
+
+          this.props.firebase
+            .doUseAccessToken(this.state.accessToken, this.state.email);
 
           this.setState({ ...this.state, uid: response.user.uid, redirect: true });
         })
@@ -130,6 +138,18 @@ class SignUpPage extends React.Component {
     }
   }
 
+  async isBadAccessToken() {
+    this.setState({ ...this.state, badAccessToken: false, badAccessTokenMsg: '' });
+    const isValidAccessToken = await this.props.firebase.isValidAccessToken(this.state.accessToken)
+
+    if (!isValidAccessToken) {
+      this.setState({ ...this.state, badAccessToken: true, badAccessTokenMsg: 'Invalid access token.' });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
     const { classes, ...rest } = this.props;
 
@@ -142,7 +162,8 @@ class SignUpPage extends React.Component {
       this.state.password !== this.state.confirmPassword ||
       this.state.password === '' ||
       this.state.phoneNumber.length < 14 ||
-      this.state.codeWord === '';
+      this.state.codeWord === '' ||
+      this.state.accessToken === '';
 
     return (
       <Card className={classes.textCenter}>
@@ -285,6 +306,45 @@ class SignUpPage extends React.Component {
                       null
                     }
                     
+              </GridItem>
+
+            </GridContainer>
+
+            <GridContainer>
+
+            <GridItem xs={12} sm={12} md={12}>
+
+              <CustomInput
+                  labelText="Access Token"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    name: "accessToken",
+                    value: this.state.accessToken,
+                    onChange: this.onChange,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Tooltip
+                          id="accessTokenToolTip"
+                          title="A unique code given to you by a Hero."
+                          placement="top"
+                          classes={{ tooltip: classes.tooltip }}
+                        >
+                          <Help />
+                        </Tooltip>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                {
+                  this.state.badAccessToken ?
+                  <Danger>
+                    { this.state.badAccessTokenMsg }
+                  </Danger> :
+                  null
+                }
+                
               </GridItem>
 
             </GridContainer>
