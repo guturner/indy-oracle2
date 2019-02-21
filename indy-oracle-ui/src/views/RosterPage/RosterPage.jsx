@@ -5,8 +5,7 @@ import classNames from "classnames";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import Footer from "components/Footer/Footer.jsx";
-import Header from "components/Header/Header.jsx";
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
+import IndyHeader from "components/Header/IndyHeader.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
@@ -39,22 +38,20 @@ class RosterPage extends React.Component {
 
         return (
         <div>
-            <Header
-            color="transparent"
-            rightLinks={
-                <FirebaseContext.Consumer>
-                    {firebase => <HeaderLinks firebase={firebase} />}
-                </FirebaseContext.Consumer>
-            }
-            brand="The Indy Oracle"
-            fixed
-            changeColorOnScroll={{
-                height: 400,
-                color: "white"
-            }}
-            {...rest}
-            />
-            <Parallax small filter />
+            <IndyHeader/>
+            <Parallax filter image={require("assets/img/bg3.jpg")}>
+                <div className={classes.container}>
+                    <GridContainer>
+                        <GridItem xs={12} sm={12} md={12}>
+                            <div>
+                                <h1 className={classes.title}>
+                                    Meet your team.
+                                </h1>
+                            </div>
+                        </GridItem>
+                    </GridContainer>
+                </div>
+            </Parallax>
             <div className={ classNames(classes.main, classes.mainRaised) }>
                 
                 <GridContainer spacing={40}>

@@ -13,6 +13,13 @@ const headerLinksStyle = theme => ({
     paddingBottom: "0",
     color: "inherit"
   },
+  boldButton: {
+    color: "#000000",
+    fontWeight: "bold",
+    "&:hover": {
+      color: "#000000"
+    }
+  },
   listItem: {
     float: "left",
     color: "inherit",

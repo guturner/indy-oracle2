@@ -155,7 +155,7 @@ class LoginPage extends React.Component {
             <GridContainer>
 
               <GridItem xs={12} sm={12} md={12}>
-                <Button color="primary" type="submit" disabled={isInvalid}>Login</Button>
+                <Button color="primary" type="submit" disabled={isInvalid} className={classes.boldButton}>Login</Button>
               </GridItem>
 
             </GridContainer>

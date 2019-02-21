@@ -8,8 +8,7 @@ import Button from "components/CustomButtons/Button.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import Header from "components/Header/Header.jsx";
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
+import IndyHeader from "components/Header/IndyHeader.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
 
 import SignUpPage from "./SignUpPage.jsx";
@@ -37,22 +36,20 @@ class AuthPage extends React.Component {
 
         return (
         <div>
-            <Header
-            color="transparent"
-            rightLinks={
-                <FirebaseContext.Consumer>
-                    {firebase => <HeaderLinks firebase={firebase} />}
-                </FirebaseContext.Consumer>
-            }
-            brand="The Indy Oracle"
-            fixed
-            changeColorOnScroll={{
-                height: 400,
-                color: "white"
-            }}
-            {...rest}
-            />
-            <Parallax small filter />
+            <IndyHeader/>
+            <Parallax filter image={require("assets/img/bg2.jpg")}>
+                <div className={classes.container}>
+                    <GridContainer>
+                        <GridItem xs={12} sm={12} md={12}>
+                            <div>
+                                <h1 className={classes.title}>
+                                    We can be heroes.
+                                </h1>
+                            </div>
+                        </GridItem>
+                    </GridContainer>
+                </div>
+            </Parallax>
             <div className={ classNames(classes.main, classes.mainRaised) }>
 
                 <GridContainer spacing={40}>

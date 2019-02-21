@@ -352,7 +352,7 @@ class SignUpPage extends React.Component {
             <GridContainer>
 
               <GridItem xs={12} sm={12} md={12}>
-                <Button color="primary" type="submit" disabled={isInvalid}>Sign Up</Button>
+                <Button color="primary" type="submit" disabled={isInvalid} className={classes.boldButton}>Sign Up</Button>
               </GridItem>
 
             </GridContainer>

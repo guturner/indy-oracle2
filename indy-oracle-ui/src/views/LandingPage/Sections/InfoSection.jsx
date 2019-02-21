@@ -24,11 +24,16 @@ class InfoSection extends React.Component {
       <div className={classes.section}>
         <GridContainer justify="center">
           <GridItem cs={12} sm={12} md={8}>
-            <h2 className={classes.title}>More Info</h2>
+            <h2 className={classes.title}>Who Are We</h2>
             <h4 className={classes.description}>
-              Indy Oracle is a program dedicated to keeping cosplayers safe.
-              <br/>
-              More coming soon.
+              Criminals beware, Indy Oracle is online. 
+              <br/><br/>
+              We are a group of individuals volunteering to keep cosplayers safe.
+              Conventions are a world of fun, but oftentimes they are held in highly populated cities - like Indianapolis.
+              While we all like to believe our city is safe, that's not always the case.
+              <br/><br/>
+              The Indy Oracle offers a way of connecting cosplayers in need with thoroughly-vetted volunteers ready to help.
+              Whether that's walking with you to your car, calling an Uber, or getting in touch with the venue's security - that's up to you!
             </h4>
           </GridItem>
         </GridContainer>

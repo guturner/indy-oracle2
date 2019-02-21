@@ -3,18 +3,15 @@ import classNames from "classnames";
 import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import Header from "components/Header/Header.jsx";
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
+import IndyHeader from "components/Header/IndyHeader.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
 
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 
 import InfoSection from "./Sections/InfoSection.jsx";
-
-import { FirebaseContext } from '../../firebase';
 
 function mapStateToProps(state) {
   return {
@@ -35,25 +32,11 @@ class LandingPage extends React.Component {
     const { classes, ...rest } = this.props;
     return (
       <div>
-        <Header
-          color="transparent"
-          rightLinks={
-            <FirebaseContext.Consumer>
-                {firebase => <HeaderLinks firebase={firebase} />}
-            </FirebaseContext.Consumer>
-          }
-          brand="The Indy Oracle"
-          fixed
-          changeColorOnScroll={{
-            height: 400,
-            color: "white"
-          }}
-          {...rest}
-        />
+        <IndyHeader/>
         <Parallax filter image={require("assets/img/bg.jpg")}>
           <div className={classes.container}>
             <GridContainer>
-              <GridItem xs={12} sm={12} md={8}>
+              <GridItem xs={12} sm={12} md={12}>
                 { 
                   this.props.user !== '' ?
                   <div>
@@ -61,7 +44,7 @@ class LandingPage extends React.Component {
                       317-597-{this.state.phoneNumber}
                     </h1>
                     <h4>
-                      Coming soon.
+                      ALPHA
                     </h4>
                   </div> :
                   <div>

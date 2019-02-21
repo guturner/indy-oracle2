@@ -5,11 +5,25 @@ const basicsStyle = {
   sections: {
     padding: "70px 0"
   },
-  container,
+  boldButton: {
+    color: "#000000",
+    fontWeight: "bold",
+    "&:hover": {
+      color: "#000000"
+    }
+  },
+  container: {
+    zIndex: "12",
+    color: "#FFFFFF",
+    ...container
+  },
   title: {
     ...title,
+    display: "inline-block",
+    position: "relative",
     marginTop: "30px",
     minHeight: "32px",
+    color: "#FFFFFF",
     textDecoration: "none"
   },
   space50: {

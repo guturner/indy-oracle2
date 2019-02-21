@@ -73,7 +73,7 @@ class HeaderLinks extends React.Component {
 
       <List className={classes.list}>
         <ListItem className={classes.listItem}>
-          <Button color="primary" onClick={this.handleSignIn} className={classes.title}>
+          <Button color="primary" onClick={this.handleSignIn} className={classes.boldButton}>
             Login / Signup
           </Button>
         </ListItem>
