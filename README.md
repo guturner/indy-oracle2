@@ -2,9 +2,6 @@
 # indy-oracle2
 Web application for organizing cosplay safety.
 
-# Check it Out!
-[the Indy Oracle](https://indy-oracle.com/)
-
 # Intro
 Demonstrates knowledge of:
 
